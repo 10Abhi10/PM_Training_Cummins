@@ -9,7 +9,25 @@ import streamlit as st
 import joblib
 # Libraries for data exploration and manipulation
 import pandas as pd
-df_v1 = pd.read_csv(r'C:\Users\VZ969\Downloads\Project_Data\DMD_Intake_12_MON_original - Copy 1.csv')
+
+def read_csv_from_user():
+    file_path = input("Enter the path to the CSV file: ")
+
+    try:
+        df = pd.read_csv(file_path)
+
+        return df
+    except FileNotFoundError:
+        print("File not found.")
+        return None
+    except pd.errors.ParserError:
+        print("Error occurred while parsing the CSV file.")
+        return None
+
+# Read the CSV file from user input
+df_v1 = read_csv_from_user()
+
+# df_v1 = pd.read_csv(r'C:\Users\VZ969\Downloads\Project_Data\DMD_Intake_12_MON_original - Copy 1.csv')
 
 df_v1.drop('PART_ID', axis = 1, inplace = True)
 
@@ -69,4 +87,4 @@ def predict(input_features):
 
 prediction_x = predict(df_final)
 
-st.write('Predicted Output:', prediction_x[0])
+st.write('Predicted Output:', prediction_x)
